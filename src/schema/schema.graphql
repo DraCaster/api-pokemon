@@ -1,0 +1,19 @@
+type pokemon {
+    entry_number: Int,
+    pokemon_species: pokemonSpecie
+}
+
+type pokemonSpecie {
+    name: string,
+    url: string
+}
+
+input pokemonInput {
+    entry_number: Int,
+    name: string
+}
+
+type Query {
+    pokemons: [pokemon]
+    getPokemon(entry_number: Int): pokemon
+}
