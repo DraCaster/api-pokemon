@@ -1,17 +1,15 @@
 # Pokemon API GraphQL
 
-***EN PROCESO DE DESARROLLO***
-
 _Pequeña API en GraphQL de Pokemon de la primera generacion (region Kanto)._
 
 * Permite obtener un listado de los 150 Pokemons de la region de Kanto.
 * Permite la busqueda de un pokemon por su numero de la Pokedex.
 
-### Muy pronto
+### Muy pronto ♥
 
 * Pokemons de la segunda generacion.
 
-### Desarrollo
+### Desarrollo 🔧
 
 Este proyectito fue desarrollado con:
 
@@ -20,6 +18,8 @@ Este proyectito fue desarrollado con:
 - GraphQL
 - Apollo Server
 
+<img src="https://c.tenor.com/3IACtMvxwdsAAAAi/pikachu-happy.gif"/>
+
 --
 
-_Hecho con amor, por Lushan (Obviamente fan de Pokemon)._
+_Hecho con amor ♥️, por Lushan (Obviamente fan de Pokemon)._
