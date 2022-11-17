@@ -4,13 +4,13 @@ type pokemon {
 }
 
 type pokemonSpecie {
-    name: string,
-    url: string
+    name: String,
+    url: String
 }
 
 input pokemonInput {
     entry_number: Int,
-    name: string
+    name: String
 }
 
 type Query {

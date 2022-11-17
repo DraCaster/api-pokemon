@@ -1,29 +1,41 @@
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import express from 'express';
-import compression from 'compression';
+import http from 'http';
 import cors from 'cors';
-import {createServer} from 'http';
-import {ApolloServer} from "apollo-server-express";
-import schema from "./schema";
-import expressPlayGround from 'graphql-playground-middleware-express';
+import { json } from 'body-parser';
+import path from 'path';
+import fs from 'fs'
+import resolvers from './resolvers/resolversMap';
 
-const app = express();
+startApolloServer();
+async function startApolloServer() {
 
-app.use('*',cors);
-app.use(compression());
+    const typeDefs = fs.readFileSync(path.join(__dirname, './schema/schema.graphql'), 'utf8');
 
-const server = new ApolloServer({
-    schema,
-    introspection: true
-})
+    interface MyContext {
+        token?: String;
+    }
 
-server.applyMiddleware({app});
+    const app = express();
+    const httpServer = http.createServer(app);
+    const server = new ApolloServer<MyContext>({
+        typeDefs,
+        resolvers,
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    });
+    await server.start();
+    app.use(
+        '/graphql',
+        cors<cors.CorsRequest>(),
+        json(),
+        expressMiddleware(server, {
+            context: async ({ req }) => ({ token: req.headers.token }),
+        }),
+    );
 
-app.get('/', expressPlayGround ({
-    endpoint: '/graphql'
-}))
-
-const httpServer = createServer(app);
-const PORT = process.env.PORT || 5200;
-httpServer.listen({port: PORT}, () => console.log('App running!'));
-
+    await new Promise<void>((resolve) => httpServer.listen({ port: 4000 }, resolve));
+    console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+}
 
